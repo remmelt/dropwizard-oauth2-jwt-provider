@@ -8,9 +8,25 @@
 		<maven>3</maven>
 	</prerequisites>
 	<properties>
-		<dropwizard.version>0.7.1</dropwizard.version>
+		<dropwizard.version>0.8.1</dropwizard.version>
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>com.github.toastshaman</groupId>
+			<artifactId>dropwizard-auth-jwt</artifactId>
+			<version>0.8.1-1</version>
+		</dependency>
+		<dependency>
+			<groupId>io.dropwizard</groupId>
+			<artifactId>dropwizard-auth</artifactId>
+			<version>${dropwizard.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.dropwizard</groupId>
+			<artifactId>dropwizard-client</artifactId>
+			<version>${dropwizard.version}</version>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>io.dropwizard</groupId>
 			<artifactId>dropwizard-core</artifactId>
@@ -31,17 +47,34 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.14.4</version>
+			<version>1.16.6</version>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.github.toastshaman</groupId>
-			<artifactId>dropwizard-auth-jwt</artifactId>
-			<version>1.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<build>
+		<finalName>${project.artifactId}</finalName>
 		<plugins>
+			<plugin>
+				<groupId>com.github.ekryd.sortpom</groupId>
+				<artifactId>sortpom-maven-plugin</artifactId>
+				<version>2.4.0</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>sort</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<createBackupFile>false</createBackupFile>
+					<expandEmptyElements>false</expandEmptyElements>
+					<nrOfIndentSpace>-1</nrOfIndentSpace>
+					<sortDependencies>groupId,artifactId</sortDependencies>
+					<sortPlugins>groupId,artifactId</sortPlugins>
+					<sortProperties>true</sortProperties>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -63,13 +96,14 @@
 							<goal>shade</goal>
 						</goals>
 						<configuration>
+							<outputFile>target/srv.jar</outputFile>
 							<artifactSet>
 								<excludes>
 									<exclude>com.google.code.findbugs:jsr305</exclude>
 								</excludes>
 							</artifactSet>
 							<transformers>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"></transformer>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>com.remmelt.examples.OAuth2Application</mainClass>
 								</transformer>

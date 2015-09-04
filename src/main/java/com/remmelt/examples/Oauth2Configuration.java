@@ -8,7 +8,6 @@ import java.io.UnsupportedEncodingException;
 
 @Getter
 public class Oauth2Configuration extends Configuration {
-
 	@NotEmpty
 	private String jwtTokenSecret = "dfwzsdzwh823zebdwdz772632gdsbd";
 
@@ -18,5 +17,4 @@ public class Oauth2Configuration extends Configuration {
 	public byte[] getJwtTokenSecret() throws UnsupportedEncodingException {
 		return jwtTokenSecret.getBytes("UTF-8");
 	}
-
 }

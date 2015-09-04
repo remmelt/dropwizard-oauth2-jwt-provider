@@ -1,0 +1,6 @@
+logging:
+  level: DEBUG
+  loggers:
+    org.eclipse.jetty: INFO
+
+jwtTokenSecret: secret_string
